@@ -47,12 +47,14 @@ class CourseRegister {
           }
         })
         let button = document.createElement("button");
+        button.classList.add('solex_schedule_button')
         if (registerd_ids.includes(id)) {
           button.innerText = "時間割から消去";
+          button.classList.add("solex_delete_schedule_button")
         } else {
           button.innerText = "時間割に追加";
+          button.classList.remove("solex_delete_schedule_button")
         }
-        button["class"] = "solex_add_schedule";
         button.onclick = function (event) {
           event.stopPropagation();
 
@@ -64,9 +66,11 @@ class CourseRegister {
           };
           if (button.innerText == "時間割に追加") {
             button.innerText = "時間割から消去";
+            button.classList.add("solex_delete_schedule_button")
             self.addCourse(course);
           } else {
             button.innerText = "時間割に追加";
+            button.classList.remove("solex_delete_schedule_button")
             self.deleteCourse(course);
           }
         };

@@ -17,7 +17,10 @@
 			],
 			"js": [
 				"schedule/dashboard.js"
-			]
+            ],
+            "css": [
+                "schedule/SOL_schedule.css"
+            ]
         },
         {
             "matches": [
@@ -26,6 +29,9 @@
             "run_at": "document_end",
             "js": [
                 "schedule/courses.js"
+            ],
+            "css": [
+                "schedule/SOL_schedule.css"
             ]
         }
 	]

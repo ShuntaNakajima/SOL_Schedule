@@ -1,0 +1,25 @@
+.solex_schedule_time {
+  line-height: 13px;
+  font-size: 13px;
+}
+
+.solex_schedule_button {
+  color: rgb(21, 111, 196);
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  border: solid 1.5px rgb(223, 223, 223);
+  cursor: pointer;
+  outline: none;
+  padding: 5.5px;
+  appearance: none;
+  border-radius: 5px;
+}
+
+.solex_delete_schedule_button {
+    color: rgb(196, 21, 88);
+}
+
+.solex_schedule_th_a{
+    font-size: 13px;
+}
