@@ -1,22 +1,20 @@
 class DashboardSchedule {
   constructor() {
     this.addScheduleDiv();
-      let self = this;
+    let self = this;
     async function getreg() {
       return await self.getRegisterdCourse();
     }
-      getreg().then((courses) => {
-          if (typeof courses === "undefined") {
-            courses = []
-          }
+    getreg().then((courses) => {
+      if (typeof courses === "undefined") {
+        courses = [];
+      }
       let time_table = Array(35)
         .fill()
         .map(() => []);
-      time_table.forEach((e, index) => {
-        courses.forEach((elm, index2) => {
-          if (elm["time"].includes(index)) {
-            time_table[index].push(elm);
-          }
+      courses.forEach((elm, index) => {
+        elm["time"].forEach((elm2, index2) => {
+          time_table[elm2].push(elm);
         });
       });
       this.time_table = time_table;
@@ -35,7 +33,8 @@ class DashboardSchedule {
 
   generateScheduleTable() {
     let div = document.createElement("div");
-    div.innerHTML = `
+    div.innerHTML =
+      `
         <br>
         <table border="1" width="100%" cellspacing="0" cellpadding="5" bordercolor="#333333">
     <tr>
@@ -48,74 +47,149 @@ class DashboardSchedule {
     </tr>
     <tr>
     <th width="10%" height="80px">１限<div class="solex_schedule_time"><br>09:25〜10:55</div></th>
-    <th width="18%">` + this.classString(0) + `</th>
-    <th width="18%">` + this.classString(7) + `</th>
-    <th width="18%">` + this.classString(14) + `</th>
-    <th width="18%">` + this.classString(21) + `</th>
-    <th width="18%">` + this.classString(28) + `</th>
+    <th width="18%">` +
+      this.classString(0) +
+      `</th>
+    <th width="18%">` +
+      this.classString(7) +
+      `</th>
+    <th width="18%">` +
+      this.classString(14) +
+      `</th>
+    <th width="18%">` +
+      this.classString(21) +
+      `</th>
+    <th width="18%">` +
+      this.classString(28) +
+      `</th>
     </tr>
     <tr>
     <th width="10%" height="80px">２限<div class="solex_schedule_time"><br>11:10〜12:40</div></th>
-    <th width="18%">` + this.classString(1) + `</th>
-    <th width="18%">` + this.classString(8) + `</th>
-    <th width="18%">` + this.classString(15) + `</th>
-    <th width="18%">` + this.classString(22) + `</th>
-    <th width="18%">` + this.classString(29) + `</th>
+    <th width="18%">` +
+      this.classString(1) +
+      `</th>
+    <th width="18%">` +
+      this.classString(8) +
+      `</th>
+    <th width="18%">` +
+      this.classString(15) +
+      `</th>
+    <th width="18%">` +
+      this.classString(22) +
+      `</th>
+    <th width="18%">` +
+      this.classString(29) +
+      `</th>
     </tr>
     <tr>
     <th width="10%" height="80px">３限<div class="solex_schedule_time"><br>13:00〜14:30</div></th>
-    <th width="18%">` + this.classString(2) + `</th>
-    <th width="18%">` + this.classString(9) + `</th>
-    <th width="18%">` + this.classString(16) + `</th>
-    <th width="18%">` + this.classString(23) + `</th>
-    <th width="18%">` + this.classString(30) + `</th>
+    <th width="18%">` +
+      this.classString(2) +
+      `</th>
+    <th width="18%">` +
+      this.classString(9) +
+      `</th>
+    <th width="18%">` +
+      this.classString(16) +
+      `</th>
+    <th width="18%">` +
+      this.classString(23) +
+      `</th>
+    <th width="18%">` +
+      this.classString(30) +
+      `</th>
     </tr>
     <tr>
     <th width="10%" height="80px">４限<div class="solex_schedule_time"><br>14:45〜16:15</div></th>
-    <th width="18%">` + this.classString(3) + `</th>
-    <th width="18%">` + this.classString(10) + `</th>
-    <th width="18%">` + this.classString(17) + `</th>
-    <th width="18%">` + this.classString(24) + `</th>
-    <th width="18%">` + this.classString(31) + `</th>
+    <th width="18%">` +
+      this.classString(3) +
+      `</th>
+    <th width="18%">` +
+      this.classString(10) +
+      `</th>
+    <th width="18%">` +
+      this.classString(17) +
+      `</th>
+    <th width="18%">` +
+      this.classString(24) +
+      `</th>
+    <th width="18%">` +
+      this.classString(31) +
+      `</th>
     </tr>
     <tr>
     <th width="10%" height="80px">５限<div class="solex_schedule_time"><br>16:30〜18:00</div></th>
-    <th width="18%">` + this.classString(4) + `</th>
-    <th width="18%">` + this.classString(11) + `</th>
-    <th width="18%">` + this.classString(18) + `</th>
-    <th width="18%">` + this.classString(25) + `</th>
-    <th width="18%">` + this.classString(32) + `</th>
+    <th width="18%">` +
+      this.classString(4) +
+      `</th>
+    <th width="18%">` +
+      this.classString(11) +
+      `</th>
+    <th width="18%">` +
+      this.classString(18) +
+      `</th>
+    <th width="18%">` +
+      this.classString(25) +
+      `</th>
+    <th width="18%">` +
+      this.classString(32) +
+      `</th>
     </tr>
     <tr>
     <th width="10%" height="80px">６限<div class="solex_schedule_time"><br>18:10〜18:40</div></th>
-    <th width="18%">` + this.classString(5) + `</th>
-    <th width="18%">` + this.classString(12) + `</th>
-    <th width="18%">` + this.classString(18) + `</th>
-    <th width="18%">` + this.classString(26) + `</th>
-    <th width="18%">` + this.classString(33) + `</th>
+    <th width="18%">` +
+      this.classString(5) +
+      `</th>
+    <th width="18%">` +
+      this.classString(12) +
+      `</th>
+    <th width="18%">` +
+      this.classString(18) +
+      `</th>
+    <th width="18%">` +
+      this.classString(26) +
+      `</th>
+    <th width="18%">` +
+      this.classString(33) +
+      `</th>
     </tr>
     <tr>
     <th width="10%" height="80px">７限<div class="solex_schedule_time"><br>18:50〜21:20</div></th>
-    <th width="18%">` + this.classString(6) + `</th>
-    <th width="18%">` + this.classString(13) + `</th>
-    <th width="18%">` + this.classString(20) + `</th>
-    <th width="18%">` + this.classString(27) + `</th>
-    <th width="18%">` + this.classString(34) + `</th>
+    <th width="18%">` +
+      this.classString(6) +
+      `</th>
+    <th width="18%">` +
+      this.classString(13) +
+      `</th>
+    <th width="18%">` +
+      this.classString(20) +
+      `</th>
+    <th width="18%">` +
+      this.classString(27) +
+      `</th>
+    <th width="18%">` +
+      this.classString(34) +
+      `</th>
     </tr>
     </table>
     `;
     document.querySelector("#schedule").appendChild(div);
   }
-    
-    classString(index) {
-        let tagstr = ""
-        this.time_table[index].forEach((el, index) => {
-            if (index != 0) {
-                tagstr += "<br>"
-            }
-            tagstr += "<div><a href='" + el.id + "' class='solex_schedule_th_a'>" + el.title +"</a></div>"
-        })
-        return tagstr
+
+  classString(index) {
+    let tagstr = "";
+    this.time_table[index].forEach((el, index) => {
+      if (index != 0) {
+        tagstr += "<br>";
+      }
+      tagstr +=
+        "<div><a href='" +
+        el.id +
+        "' class='solex_schedule_th_a'>" +
+        el.title +
+        "</a></div>";
+    });
+    return tagstr;
   }
 
   getRegisterdCourse() {
