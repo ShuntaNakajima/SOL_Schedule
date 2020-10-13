@@ -132,3 +132,10 @@ const callback = function (mutationsList, observer) {
 };
 const observer = new MutationObserver(callback);
 observer.observe(targetNode, config);
+
+var pushState = history.pushState;
+history.pushState = function () {
+  if (!e.originalEvent.state) return;
+  DS.refresh();
+  observer.observe(targetNode, config)
+}
