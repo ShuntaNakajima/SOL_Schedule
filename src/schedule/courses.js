@@ -126,11 +126,9 @@ DS.refresh();
 const targetNode = document.getElementById('content');
 const config = { attributes: true, childList: true, subtree: true };
 const callback = function (mutationsList, observer) {
-  console.log(mutationsList)
   observer.disconnect()
   DS.showAddCourseButtonIfNeeded()
   observer.observe(targetNode, config)
-  console.log("works")
 };
 const observer = new MutationObserver(callback);
 observer.observe(targetNode, config);

@@ -6,9 +6,6 @@
     "permissions": [
         "storage"
     ],
-    "background": {
-        "scripts":["schedule/background.js"]
-    },
 	"content_scripts": [
 		{
 			"matches": [
