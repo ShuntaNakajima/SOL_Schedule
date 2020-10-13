@@ -4,8 +4,7 @@
     "description": "SOLのコースに飛びやすくする拡張機能です。",
     "manifest_version": 2,
     "permissions": [
-        "storage",
-        "tabs"
+        "storage"
     ],
     "background": {
         "scripts":["schedule/background.js"]

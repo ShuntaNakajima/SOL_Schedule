@@ -120,44 +120,17 @@ class CourseRegister {
 }
 
 const DS = new CourseRegister();
-const MAX_RETRY_COUNT_FIND_DIFF_CONTAINER = 20;
-let retry_counter = 0;
-let old_titles = Array.from(
-  document.getElementsByClassName("course_summary")
-).map(function (item) {
-  return item
-    .querySelector(".pad-box-mini")
-    .getElementsByTagName("a")[0].textContent;
-});
-let set_interval_id;
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.message === "TabUpdated") {
-    clearInterval(set_interval_id);
-    delete set_interval_id;
-    set_interval_id = setInterval(waitCourseLoaded, 500);
-  }
-});
-function waitCourseLoaded() {
-  retry_counter++;
-  if (retry_counter > MAX_RETRY_COUNT_FIND_DIFF_CONTAINER) {
-    clearInterval(set_interval_id);
-    delete set_interval_id;
-  }
-  new_titles = Array.from(
-    document.getElementsByClassName("course_summary")
-  ).map(function (item) {
-    return item
-      .querySelector(".pad-box-mini")
-      .getElementsByTagName("a")[0].textContent;
-  });
-  if (old_titles != new_titles) {
-    if (typeof set_interval_id != "undefined") {
-      clearInterval(set_interval_id);
-      delete set_interval_id;
-      old_titles = new_titles;
-      DS.refresh();
-    } else {
-      return diff_container_elements;
-    }
-  }
-}
+
+DS.refresh();
+
+const targetNode = document.getElementById('content');
+const config = { attributes: true, childList: true, subtree: true };
+const callback = function (mutationsList, observer) {
+  console.log(mutationsList)
+  observer.disconnect()
+  DS.showAddCourseButtonIfNeeded()
+  observer.observe(targetNode, config)
+  console.log("works")
+};
+const observer = new MutationObserver(callback);
+observer.observe(targetNode, config);
