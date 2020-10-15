@@ -2,24 +2,21 @@ class DashboardSchedule {
   constructor() {
     this.addScheduleDiv();
     let self = this;
-    async function getreg() {
-      return await self.getRegisterdCourse();
+    let courses = [];
+    if (typeof courses === "undefined") {
+      courses = [];
     }
-    getreg().then((courses) => {
-      if (typeof courses === "undefined") {
-        courses = [];
-      }
-      let time_table = Array(35)
-        .fill()
-        .map(() => []);
-      courses.forEach((elm, index) => {
-        elm["time"].forEach((elm2, index2) => {
-          time_table[elm2].push(elm);
-        });
+    courses = this.getRegisterdCourseFromDashBoard();
+    let time_table = Array(35)
+      .fill()
+      .map(() => []);
+    courses.forEach((elm, index) => {
+      elm["time"].forEach((elm2, index2) => {
+        time_table[elm2].push(elm);
       });
-      this.time_table = time_table;
-      this.generateScheduleTable();
     });
+    this.time_table = time_table;
+    this.generateScheduleTable();
   }
 
   addScheduleDiv() {
@@ -28,7 +25,7 @@ class DashboardSchedule {
         <div id="schedule_header_container" class="ic-Dashboard-header"><div class="large ic-Dashboard-header__layout"><h1 class="ic-Dashboard-header__title"><span class="hidden-phone">時間割</span></h1></div></div>
         `;
     scheduleDiv.id = "schedule";
-    document.querySelector("#content").appendChild(scheduleDiv);
+    document.querySelector("#content").prepend(scheduleDiv);
   }
 
   generateScheduleTable() {
@@ -36,7 +33,7 @@ class DashboardSchedule {
     div.innerHTML =
       `
         <br>
-        <table border="1" width="100%" cellspacing="0" cellpadding="5" bordercolor="#333333">
+        <table border="1" width="100%" cellspacing="0" cellpadding="5" bordercolor="#333333" class="solex_table">
     <tr>
     <th></th>
     <th width="18%">月</th>
@@ -192,17 +189,49 @@ class DashboardSchedule {
     return tagstr;
   }
 
-  getRegisterdCourse() {
-    const self = this;
-    return new Promise((resolve) => {
-      chrome.storage.local.get(["courses"], function (result) {
-        if (typeof result === "undefined") {
-          resolve([]);
-        } else {
-          resolve(result.courses);
-        }
+  getRegisterdCourseFromDashBoard() {
+    const courses = document.getElementsByClassName("ic-DashboardCard");
+    const days = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日"];
+    const times = [
+      "１時限",
+      "２時限",
+      "３時限",
+      "４時限",
+      "５時限",
+      "６時限",
+      "７時限",
+    ];
+    const all_course_times = [];
+    let registerd_courses = [];
+    days.forEach((day) => {
+      times.forEach((time) => {
+        all_course_times.push(day + time);
       });
     });
+    Array.from(courses).forEach((element, index) => {
+      const id = element.getElementsByClassName("ic-DashboardCard__link")[0]
+        .href;
+      const title = element.ariaLabel;
+      const desc = element.getElementsByClassName(
+        "ic-DashboardCard__header-description"
+      )[0].textContent;
+      if (days.some((el) => desc.includes(el))) {
+        let course_time = [];
+        all_course_times.forEach((time, index) => {
+          if (desc.includes(time)) {
+            course_time.push(index);
+          }
+        });
+        let course = {
+          id: id,
+          title: title,
+          time: course_time,
+          desc: desc,
+        };
+        registerd_courses.push(course);
+      }
+    });
+    return registerd_courses;
   }
 }
 
