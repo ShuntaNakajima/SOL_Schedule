@@ -1,6 +1,6 @@
 {
     "name": "SOL Schedule",
-    "version": "1.0",
+    "version": "1.1",
     "description": "SOLのコースに飛びやすくする拡張機能です。",
     "manifest_version": 2,
     "permissions": [
@@ -13,18 +13,6 @@
 			],
 			"js": [
 				"schedule/dashboard.js"
-            ],
-            "css": [
-                "schedule/SOL_schedule.css"
-            ]
-        },
-        {
-            "matches": [
-                "https://sol.sfc.keio.ac.jp/search/all_courses/*"
-            ],
-            "run_at": "document_end",
-            "js": [
-                "schedule/courses.js"
             ],
             "css": [
                 "schedule/SOL_schedule.css"
