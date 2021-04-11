@@ -6,7 +6,10 @@ class DashboardSchedule {
     let time_table = Array(35)
       .fill()
       .map(() => []);
+    let ondemand = [];
     self.time_table = time_table
+    self.ondemand = ondemand
+    self.generateScheduleTable(time_table,true);
     if (typeof courses === "undefined") {
       courses = [];
     }
@@ -18,7 +21,7 @@ class DashboardSchedule {
       };
       i++;
     }
-    var tm = 1000;
+    var tm = 1;
     var i = 1;
     var id = setInterval(fn,tm);
   }
@@ -26,18 +29,26 @@ class DashboardSchedule {
   addScheduleDiv() {
     let scheduleDiv = document.createElement("div");
     scheduleDiv.innerHTML = `
-        <div id="schedule_header_container" class="ic-Dashboard-header"><div class="large ic-Dashboard-header__layout"><h1 class="ic-Dashboard-header__title"><span class="hidden-phone">時間割</span></h1></div></div>
+        <div id="schedule_header_container" class="ic-Dashboard-header"><div class="large ic-Dashboard-header__layout"><h1 class="ic-Dashboard-header__title"><span class="hidden-phone">時間割</span></h1></div></div><div id="schedule_body_container"></div>
         `;
     scheduleDiv.id = "schedule";
     document.querySelector("#content").prepend(scheduleDiv);
   }
 
-  generateScheduleTable(courses) {
-    courses.forEach((elm, index) => {
-      elm["time"].forEach((elm2, index2) => {
-        this.time_table[elm2].push(elm);
+  generateScheduleTable(courses,isinitial=false) {
+    if (!isinitial){
+      courses.forEach((elm, index) => {
+        if (elm["time"] == 99){
+          this.ondemand.push(elm)
+        }else{
+          console.log(elm["time"])
+          elm["time"].forEach((elm2, index2) => {
+            this.time_table[elm2].push(elm);
+          });
+        }
       });
-    });
+    }
+
     let div = document.createElement("div");
     div.innerHTML =
       `
@@ -177,24 +188,44 @@ class DashboardSchedule {
       this.classString(34) +
       `</th>
     </tr>
+    <tr>
+    <th width="10%" height="80px"><font size="2">オンデマンド<br>/ 未登録</font></th>
+    <th width="18%" colspan="5">` +
+      this.classString(99) +
+      `</th>
+    </tr>
     </table>
     `;
-    document.querySelector("#schedule").appendChild(div);
+    document.querySelector("#schedule_body_container").innerHTML = div.innerHTML
   }
 
   classString(index) {
     let tagstr = "";
-    this.time_table[index].forEach((el, index) => {
-      if (index != 0) {
-        tagstr += "<br>";
-      }
-      tagstr +=
-        "<div><a href='" +
-        el.id +
-        "' class='solex_schedule_th_a'>" +
-        el.title +
-        "</a></div>";
-    });
+    if (index == 99){
+      console.log(this.ondemand)
+      tagstr += "<div class='solex_flexdiv'>"
+      this.ondemand.forEach((el, index) => {
+        tagstr +=
+          "<div><a href='" +
+          el.id +
+          "' class='solex_schedule_th_a'>" +
+          el.title +
+          "</a></div>";
+      });
+      tagstr += "</div>"
+    }else{
+      this.time_table[index].forEach((el, index) => {
+        if (index != 0) {
+          tagstr += "<br>";
+        }
+        tagstr +=
+          "<div><a href='" +
+          el.id +
+          "' class='solex_schedule_th_a'>" +
+          el.title +
+          "</a></div>";
+      });
+    }
     return tagstr;
   }
 
@@ -221,6 +252,7 @@ class DashboardSchedule {
       if (element.getElementsByTagName("title").length == 1) {
         return
       }
+      let added = false
       const id = element.getElementsByClassName("ic-DashboardCard__link")[0]
         .href;
       const title = element.ariaLabel;
@@ -232,12 +264,21 @@ class DashboardSchedule {
         all_course_times.forEach((time, index) => {
           if (desc.includes(time)) {
             course_time.push(index);
+            added = true
           }
         });
         let course = {
           id: id,
           title: title,
           time: course_time,
+          desc: desc,
+        };
+        registerd_courses.push(course);
+      }else{
+        let course = {
+          id: id,
+          title: title,
+          time: 99,
           desc: desc,
         };
         registerd_courses.push(course);

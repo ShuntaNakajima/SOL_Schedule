@@ -27,3 +27,8 @@
 .solex_table{
   margin-bottom: 50px;
 }
+
+.solex_flexdiv{
+  display: flex;
+  place-content: space-evenly;
+}
