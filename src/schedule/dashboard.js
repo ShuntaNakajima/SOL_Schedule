@@ -3,20 +3,24 @@ class DashboardSchedule {
     this.addScheduleDiv();
     let self = this;
     let courses = [];
-    if (typeof courses === "undefined") {
-      courses = [];
-    }
-    courses = this.getRegisterdCourseFromDashBoard();
     let time_table = Array(35)
       .fill()
       .map(() => []);
-    courses.forEach((elm, index) => {
-      elm["time"].forEach((elm2, index2) => {
-        time_table[elm2].push(elm);
-      });
-    });
-    this.time_table = time_table;
-    this.generateScheduleTable();
+    self.time_table = time_table
+    if (typeof courses === "undefined") {
+      courses = [];
+    }
+    var fn = function() {
+      courses = self.getRegisterdCourseFromDashBoard();
+      if (i > 5 || courses.length != 0) {
+        clearInterval(id)
+        self.generateScheduleTable(courses);
+      };
+      i++;
+    }
+    var tm = 1000;
+    var i = 1;
+    var id = setInterval(fn,tm);
   }
 
   addScheduleDiv() {
@@ -28,7 +32,12 @@ class DashboardSchedule {
     document.querySelector("#content").prepend(scheduleDiv);
   }
 
-  generateScheduleTable() {
+  generateScheduleTable(courses) {
+    courses.forEach((elm, index) => {
+      elm["time"].forEach((elm2, index2) => {
+        this.time_table[elm2].push(elm);
+      });
+    });
     let div = document.createElement("div");
     div.innerHTML =
       `
@@ -209,6 +218,9 @@ class DashboardSchedule {
       });
     });
     Array.from(courses).forEach((element, index) => {
+      if (element.getElementsByTagName("title").length == 1) {
+        return
+      }
       const id = element.getElementsByClassName("ic-DashboardCard__link")[0]
         .href;
       const title = element.ariaLabel;
@@ -234,5 +246,4 @@ class DashboardSchedule {
     return registerd_courses;
   }
 }
-
 const DS = new DashboardSchedule();

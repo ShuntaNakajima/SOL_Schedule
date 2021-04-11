@@ -1,11 +1,8 @@
 {
     "name": "SOL Schedule",
-    "version": "1.1",
+    "version": "1.1.1",
     "description": "SOLのコースに飛びやすくする拡張機能です。",
     "manifest_version": 2,
-    "permissions": [
-        "storage"
-    ],
 	"content_scripts": [
 		{
 			"matches": [
